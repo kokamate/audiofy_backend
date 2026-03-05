@@ -22,12 +22,12 @@ const connection = mysql.createPool({
     queueLimit: 0
 })
 
-app.post('/api/register', async(req,res) => {
+app.post('/api/register', async (req, res) => {
     try {
-        const { email, psw} = req.body
+        const { email, psw } = req.body
 
         if (!email || !psw) {
-            return res.status(400).json({ error: 'Hiányos input adatok!'})
+            return res.status(400).json({ error: 'Hiányos input adatok!' })
         }
 
         const hash = await bcrypt.hash(psw, 5)
@@ -41,14 +41,12 @@ app.post('/api/register', async(req,res) => {
 
     } catch (error) {
         if (error && error.code == 'ER_DUP_ENTRY') {
-            return res.status(409).json({ error: 'Az email vagy felhasználó foglalt!'})
+            return res.status(409).json({ error: 'Az email vagy felhasználó foglalt!' })
         }
 
-        return res.status(500).json({ error: 'Server error', error})
+        return res.status(500).json({ error: 'Server error', error })
     }
 })
-
-
 
 app.listen(PORT, HOST, () => {
     console.log(`IP: http://${HOST}:${PORT}`)
