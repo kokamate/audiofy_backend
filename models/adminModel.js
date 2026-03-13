@@ -43,3 +43,5 @@ async function updateSong(songID, name) {
 }
 
 module.exports = { getUsers, deleteUser, getMusics, deleteSongs, updateUser, updateSong }
+
+module.exports = { getUsers}

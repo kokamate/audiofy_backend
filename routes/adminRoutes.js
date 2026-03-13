@@ -1,6 +1,7 @@
 const express = require('express')
 const {getusers, getmusics, deleteuser, deletesongs, updateuser, updatesong} = require('../controllers/adminController')
 const { auth } = require('../middleware/userMiddleware')
+const {getusers} = require('../controllers/adminController')
 
 const router = express.Router()
 

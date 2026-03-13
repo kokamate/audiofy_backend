@@ -1,10 +1,12 @@
 const { connect } = require('../db/db');
 const { getUsers, deleteUser, getMusics, deleteSongs, updateUser, updateSong } = require('../models/adminModel');
+const { getUsers } = require('../models/adminModel');
 
 async function getusers(req, res) {
     try {
         const users = await getUsers()
 
+       
         return res.status(200).send(users)
 
     } catch (err) {
@@ -89,3 +91,4 @@ async function updatesong(req, res) {
 }
 
 module.exports = { getusers, deleteuser, getmusics, deletesongs, updateuser, updatesong }
+module.exports = {  getusers}
