@@ -29,4 +29,17 @@ async function getMusics() {
     return result
 }
 
-module.exports = { getUsers, deleteUser, getMusics, deleteSongs}
+async function updateUser(userID, email, role) {
+    const sql = 'UPDATE user SET email = ?, role = ? WHERE user.userID = ?'
+    const [result] = await db.query(sql, [email, role, userID])
+
+    return result
+}
+
+async function updateSong(songID, name) {
+    const sql = 'UPDATE music SET name = ? WHERE music.songID = ?'
+    const [result] = await db.query(sql, [name, songID])
+    return result
+}
+
+module.exports = { getUsers, deleteUser, getMusics, deleteSongs, updateUser, updateSong }
