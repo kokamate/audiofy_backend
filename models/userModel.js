@@ -14,4 +14,11 @@ async function createUser(email, hash) {
     return { insertId: result.insertId }
 }
 
-module.exports = { findByEmail, createUser }
+async function getMusics() {
+    const sql = 'SELECT name, musicImg, title, song FROM music;'
+    const [result] = await db.query(sql)
+
+    return result
+}
+
+module.exports = { findByEmail, createUser, getMusics }

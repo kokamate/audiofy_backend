@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { config } = require('../config/dotenvConfig')
-const { findByEmail, createUser } = require('../models/userModel')
+const { findByEmail, createUser, getMusics } = require('../models/userModel')
 
 const cookieOpts = {
     httpOnly: true,
@@ -72,13 +72,21 @@ async function login(req, res) {
 
 // teszt végpontot, hogy a cookie-ból sikeresen ki tudjuk szedni, hogy melyik felhasználóval vagyunk bejelentkezve
 async function whoAmI(req, res) {
-    const { user_id, email, profileImg, role} = req.user
     try {
+        const { user_id, email, profileImg, role } = req.user;
+
         console.log(email, role);
-        return res.status(200).json({user_id: user_id, email: email, profileImg: profileImg, role: role})
+
+        return res.status(200).json({
+            userID: user_id,   // ✅ átnevezve
+            email: email,
+            profileImg: profileImg,
+            role: role
+        });
+
     } catch (err) {
         console.log(err);
-        return res.status(500).json({ error: 'whoAmI server oldali hiba'})
+        return res.status(500).json({ error: 'whoAmI server oldali hiba' });
     }
 }
 
@@ -86,8 +94,15 @@ async function logout(req, res) {
     return res.clearCookie(config.COOKIE_NAME, { path: '/'}).status(200).json({ message: 'Sikeres kilépés' })
 }
 
-async function get(req, res) {
-    return res.clearCookie(config.COOKIE_NAME, { path: '/'}).status(200).json({ message: 'Sikeres kilépés' })
+async function getmusics(req, res) {
+    try {
+        const users = await getMusics()
+
+        return res.status(200).send(users)
+
+    } catch (err) {
+        return res.status(500).json({ error: 'Szerver oldali hiba', err })
+    }
 }
 
-module.exports = { register, login, whoAmI, logout}
+module.exports = { register, login, whoAmI, logout, getmusics}
