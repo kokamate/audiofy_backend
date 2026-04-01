@@ -1,5 +1,5 @@
 const express = require('express')
-const { register, login, whoAmI, logout } = require('../controllers/userController')
+const { register, login, whoAmI, logout, getmusics } = require('../controllers/userController')
 const { auth } = require('../middleware/userMiddleware')
 
 const router = express.Router()
@@ -7,6 +7,7 @@ const router = express.Router()
 router.post('/register', register)
 router.post('/login', login)
 router.get('/whoami', auth, whoAmI)
-router.post('/logout', logout)
+router.post('/logout', auth, logout)
+router.get('/musics', getmusics)
 
 module.exports = router

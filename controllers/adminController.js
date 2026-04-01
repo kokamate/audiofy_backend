@@ -1,94 +1,136 @@
-const { connect } = require('../db/db');
-const { getUsers, deleteUser, getMusics, deleteSongs, updateUser, updateSong } = require('../models/adminModel');
-const { getUsers } = require('../models/adminModel');
+const db = require('../db/db'); // mysql2 pool
+const fs = require('fs');
+const path = require('path');
 
-async function getusers(req, res) {
-    try {
-        const users = await getUsers()
+// --- Users ---
+const getusers = async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT userID, email, role FROM user'); // a tábla neve 'user'
+    res.json(rows);
+  } catch (err) {
+    console.error('Hiba a getusers-nél:', err);
+    res.status(500).json({ message: 'Hiba a felhasználók lekérésekor' });
+  }
+};
 
-       
-        return res.status(200).send(users)
+// --- Musics ---
+const getmusics = async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT songID, userID, name, musicImg, title, song FROM music'); // tábla neve 'music'
+    res.json(rows);
+  } catch (err) {
+    console.error('Hiba a getmusics-nél:', err);
+    res.status(500).json({ message: 'Hiba a zenék lekérésekor' });
+  }
+};
 
-    } catch (err) {
-        return res.status(500).json({ error: 'Szerver oldali hiba', err })
-    }
-}
+// --- Delete User ---
+const deleteuser = async (req, res) => {
+  const { userID } = req.params;
+  try {
+    await db.query('DELETE FROM user WHERE userID = ?', [userID]);
+    res.json({ message: 'Felhasználó törölve' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Hiba a felhasználó törlésekor' });
+  }
+};
 
-async function getmusics(req, res) {
-    try {
-        const users = await getMusics()
+// --- Delete Song ---
+const deletesongs = async (req, res) => {
+  const { songID } = req.params;
+  try {
+    await db.query('DELETE FROM music WHERE songID = ?', [songID]);
+    res.json({ message: 'Zene törölve' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Hiba a zene törlésekor' });
+  }
+};
 
-        return res.status(200).send(users)
+// --- Update User ---
+const updateuser = async (req, res) => {
+  const { userID } = req.params;
+  const { email, role } = req.body;
+  try {
+    await db.query('UPDATE user SET email = ?, role = ? WHERE userID = ?', [email, role, userID]);
+    res.json({ message: 'Felhasználó frissítve' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Hiba a felhasználó frissítésekor' });
+  }
+};
 
-    } catch (err) {
-        return res.status(500).json({ error: 'Szerver oldali hiba', err })
-    }
-}
+// --- Update Song ---
+const updatesong = async (req, res) => {
+  const { songID } = req.params;
+  const { name, title } = req.body;
+  try {
+    await db.query('UPDATE music SET name = ?, title = ? WHERE songID = ?', [name, title, songID]);
+    res.json({ message: 'Zene frissítve' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Hiba a zene frissítésekor' });
+  }
+};
 
-async function deleteuser(req, res) {
-    try {
-        const { userID } = req.params
-        const result = await deleteUser(userID)
+const uploadSong = async (req, res) => {
+  try {
+    const songFile = req.files?.song?.[0];
+    const imgFile = req.files?.img?.[0];
 
-        if (result.affectedRows === 0) {
-            return res.status(400).json({ error: 'Nincs ilyen felhasználó' })
-        }
-        return res.status(204).send()
+    if (!songFile) return res.status(400).json({ message: 'Nincs feltöltött zene fájl!' });
+    if (!imgFile) return res.status(400).json({ message: 'Nincs feltöltött kép!' });
 
-    } catch (err) {
-        return res.status(500).json({ error: 'Szerver oldali hiba', err })
-    }
-}
+    const { name, title, userID } = req.body;
 
-async function deletesongs(req, res) {
-    try {
-        const { songID } = req.params
-        const result = await deleteSongs(songID)
+    // 1️⃣ Először INSERT placeholder-rel → auto increment songID
+    const [result] = await db.query(
+      `INSERT INTO music (userID, name, musicImg, title, song)
+       VALUES (?, ?, ?, ?, ?)`,
+      [userID, name || '', '', title || '', '']
+    );
 
-        if (result.affectedRows === 0) {
-            return res.status(400).json({ error: 'Nincs ilyen zene' })
-        }
-        return res.status(204).send()
+    const songID = result.insertId;
+    if (!songID) throw new Error('DB nem adott vissza songID-t!');
 
-    } catch (err) {
-        return res.status(500).json({ error: 'Szerver oldali hiba', err })
-    }
-}
+    // 2️⃣ Létrehozzuk a songID mappát
+    const songDir = path.join(process.cwd(), 'uploads', String(songID));
+    fs.mkdirSync(songDir, { recursive: true });
 
-async function updateuser(req, res) {
-    try {
-        const { userID } = req.params
-        const { email, role } = req.body
+    // 3️⃣ Útvonalak a fájloknak
+    const songPath = path.join('/uploads', String(songID), songFile.originalname).replace(/\\/g, '/');
+    const imgPath = path.join('/uploads', String(songID), imgFile.originalname).replace(/\\/g, '/');
 
-        const result = await updateUser(userID, email, role)
+    // 4️⃣ Fájlok áthelyezése a végleges mappába
+    fs.renameSync(songFile.path, path.join(songDir, songFile.originalname));
+    fs.renameSync(imgFile.path, path.join(songDir, imgFile.originalname));
 
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Nincs ilyen felhasználó' })
-        }
+    // 5️⃣ Frissítés DB-ben a valós útvonalakkal
+    await db.query(
+      `UPDATE music SET song = ?, musicImg = ? WHERE songID = ?`,
+      [songPath, imgPath, songID]
+    );
 
-        return res.status(200).json({ message: 'Sikeres módosítás' })
+    res.status(200).json({
+      message: 'Feltöltés sikeres!',
+      songID,
+      songPath,
+      imgPath
+    });
 
-    } catch (err) {
-        return res.status(500).json({ error: 'Szerkesztés user hiba', err })
-    }
-}
+  } catch (err) {
+    console.error('UPLOAD SONG HIBA:', err);
+    res.status(500).json({ message: err.message });
+  }
+};
 
-async function updatesong(req, res) {
-    try {
-        const { songID } = req.params
-        const { name } = req.body
-
-        const result = await updateSong(songID, name)
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Nincs ilyen zene' })
-        }
-
-        return res.status(200).json({ messgae: 'Sikeres módosítás' })
-    } catch (err) {
-        return res.status(500).json({ error: 'Szerkeztes song hiba', err })
-    }
-}
-
-module.exports = { getusers, deleteuser, getmusics, deletesongs, updateuser, updatesong }
-module.exports = {  getusers}
+module.exports = {
+  getusers,
+  getmusics,
+  deleteuser,
+  deletesongs,
+  updateuser,
+  updatesong,
+  uploadSong
+};
