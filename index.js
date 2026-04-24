@@ -35,7 +35,7 @@ app.post('/api/register', async (req, res) => {
         const sql = 'INSERT INTO `user` (userID,  email, psw, profileImg, role) VALUES (NULL , ?, ?, ?, ?)'
 
         const [result] = await connection.query(sql, [email, hash, role])
-        console.log(result);
+        //console.log(result);
 
         return res.status(201).json({ message: 'Sikeres regisztráció!', userId: result.insertId })
 
