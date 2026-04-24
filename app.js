@@ -5,7 +5,6 @@ const path = require('path');
 
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-const SongImgRoutes = require('./routes/SongImgRoutes');
 const songRoutes = require('./routes/songRoutes');
 
 const app = express();
@@ -23,7 +22,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
-app.use('/song-images', SongImgRoutes);
 app.use('/song', songRoutes);
 
 module.exports = app;

@@ -15,10 +15,39 @@ async function createUser(email, hash) {
 }
 
 async function getMusics() {
-    const sql = 'SELECT name, musicImg, title, song FROM music;'
+    const sql = 'SELECT songID, name, musicImg, title, song FROM music;'
     const [result] = await db.query(sql)
 
     return result
 }
 
-module.exports = { findByEmail, createUser, getMusics }
+async function addLike(userID, songID) {
+    const sql = 'INSERT IGNORE INTO `liked songs` (userID, songID) VALUES (?, ?)'
+    await db.query(sql, [userID, songID])
+}
+
+async function removeLike(userID, songID) {
+    const sql = 'DELETE FROM `liked songs` WHERE userID = ? AND songID = ?'
+    await db.query(sql, [userID, songID])
+}
+
+async function getLikedSongIDs(userID) {
+    const sql = 'SELECT songID FROM `liked songs` WHERE userID = ?'
+    const [result] = await db.query(sql, [userID])
+    return result.map(row => row.songID)
+}
+
+async function toggleLike(userID, songID) {
+    const existingSql = 'SELECT * FROM `liked songs` WHERE userID = ? AND songID = ?'
+    const [existing] = await db.query(existingSql, [userID, songID])
+    
+    if (existing.length > 0) {
+        await removeLike(userID, songID)
+        return { liked: false }
+    } else {
+        await addLike(userID, songID)
+        return { liked: true }
+    }
+}
+
+module.exports = { findByEmail, createUser, getMusics, addLike, removeLike, getLikedSongIDs, toggleLike }

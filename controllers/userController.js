@@ -1,11 +1,11 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { config } = require('../config/dotenvConfig')
-const { findByEmail, createUser, getMusics } = require('../models/userModel')
+const { findByEmail, createUser, getMusics, addLike, removeLike, getLikedSongIDs, toggleLike } = require('../models/userModel')
 
 const cookieOpts = {
     httpOnly: true,
-    secure: false, // https-nél true
+    secure: true, // https-nél true
     sameSite: 'lax',
     path: '/',
     maxAge: 1000 * 60 * 60 * 24 * 7
@@ -14,7 +14,7 @@ const cookieOpts = {
 async function register(req, res) {
     try {
         const {email, psw } = req.body
-        console.log(email, psw);
+        //console.log(email, psw);
 
         if (!email || !psw) {
             return res.status(400).json({ error: 'Minden mezőt ki kell tölteni!' })
@@ -64,7 +64,7 @@ async function login(req, res) {
         res.cookie(config.COOKIE_NAME, token, cookieOpts)
         return res.status(200).json({ message: 'Sikeres bejelentkezés' })   
     } catch (err) {
-        console.log(err);
+        //console.log(err);
         
         return res.status(500).json({ error: 'Bejelentkezési hiba', err })
     }
@@ -75,7 +75,7 @@ async function whoAmI(req, res) {
     try {
         const { user_id, email, profileImg, role } = req.user;
 
-        console.log(email, role);
+        //console.log(email, role);
 
         return res.status(200).json({
             userID: user_id,   // ✅ átnevezve
@@ -85,7 +85,7 @@ async function whoAmI(req, res) {
         });
 
     } catch (err) {
-        console.log(err);
+        //console.log(err);
         return res.status(500).json({ error: 'whoAmI server oldali hiba' });
     }
 }
@@ -105,4 +105,34 @@ async function getmusics(req, res) {
     }
 }
 
-module.exports = { register, login, whoAmI, logout, getmusics}
+async function toggleLikeSong(req, res) {
+    try {
+        const { songID } = req.params
+        const userID = req.user.userID
+
+        if (!songID || !userID) {
+            return res.status(400).json({ error: 'songID és userID szükséges' })
+        }
+
+        const result = await toggleLike(userID, songID)
+
+        return res.status(200).json({ success: true, liked: result.liked })
+    } catch (err) {
+        console.error('Toggle like hiba:', err)
+        return res.status(500).json({ error: 'Szerver oldali hiba', err: err.message })
+    }
+}
+
+async function getLikedSongIDsHandler(req, res) {
+    try {
+        const userID = req.user.userID
+
+        const likedSongIDs = await getLikedSongIDs(userID)
+
+        return res.status(200).json(likedSongIDs)
+    } catch (err) {
+        return res.status(500).json({ error: 'Szerver oldali hiba', err })
+    }
+}
+
+module.exports = { register, login, whoAmI, logout, getmusics, toggleLikeSong, getLikedSongIDsHandler }

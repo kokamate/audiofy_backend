@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const express = require('express')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const mysql = require('mysql2/promise')
 const jwt = require('jsonwebtoken')
 
@@ -35,7 +35,7 @@ app.post('/api/register', async (req, res) => {
         const sql = 'INSERT INTO `user` (userID,  email, psw, profileImg, role) VALUES (NULL , ?, ?, ?, ?)'
 
         const [result] = await connection.query(sql, [email, hash, role])
-        console.log(result);
+        //console.log(result);
 
         return res.status(201).json({ message: 'Sikeres regisztráció!', userId: result.insertId })
 
@@ -46,8 +46,4 @@ app.post('/api/register', async (req, res) => {
 
         return res.status(500).json({ error: 'Server error', error })
     }
-})
-
-app.listen(PORT, HOST, () => {
-    console.log(`IP: http://${HOST}:${PORT}`)
 })
