@@ -148,6 +148,35 @@ app.use('/song', songRoutes);
 		router.get('/liked-songs', auth, getLikedSongIDsHandler)
     ```
     >userRoutes.js
+
+2. admin végpontok
+
+| Művelet                | HTTP   | Végpont                | Leírás                                    |
+| ---------------------- | ------ | ---------------------- | ----------------------------------------- |
+| Felhasználók lekérése  | ![GET](https://img.shields.io/badge/-GET-green)    | `/users`               | Összes felhasználó lekérése               |
+| Zenék lekérése         | ![GET](https://img.shields.io/badge/-GET-green)    | `/musics`              | Összes zene lekérése                      |
+| Felhasználó törlése    | DELETE | `/deleteusers/:userID` | Egy felhasználó törlése ID alapján        |
+| Zene törlése           | DELETE | `/deletesongs/:songID` | Egy zene törlése ID alapján               |
+| Felhasználó frissítése | PUT    | `/updateuser/:userID`  | Felhasználó adatainak frissítése          |
+| Zene frissítése        | ![PUT](https://img.shields.io/badge/-PUT-)    | `/updatesong/:songID`  | Zene adatainak frissítése                 |
+| Zene feltöltése        | ![POST](https://img.shields.io/badge/-GET-green)   | `/uploadsong`          | Új zene feltöltése (fájl + kép feltöltés) |
+
+
+
+    ```javascript
+		router.get('/users', getusers);
+		router.get('/musics', getmusics);
+		router.delete('/deleteusers/:userID', deleteuser);
+		router.delete('/deletesongs/:songID', deletesongs);
+		router.put('/updateuser/:userID', updateuser);
+		router.put('/updatesong/:songID', updatesong);
+		
+		router.post('/uploadsong', upload.fields([
+		  { name: 'song', maxCount: 1 },
+		  { name: 'img', maxCount: 1 }
+		]), uploadSong);
+    ```
+    >adminRoutes.js
     
 
 ---
