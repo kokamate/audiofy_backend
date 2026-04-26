@@ -8,22 +8,22 @@
 ## Adatbázis
 
 - user
-  - userID
+  	- userID
 	- email
 	- psw
 	- role
     
 - music
-  - songID 
-  - userID
+  	- songID 
+  	- userID
 	- name
 	- musicImg
 	- title
-  - song
+  	- song
     
 - liked songs
-  - userID 
-  - songID
+  	- userID 
+  	- songID
     
 ![kép az adatbáziskapcsolatokról]()
 >[adatbázis diagram](https://drawsql.app/teams/csapat-2/diagrams/audify-database)
