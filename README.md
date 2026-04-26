@@ -116,130 +116,36 @@ git clone https://github.com/kokamate/audiofy_backend.git
 ### Végpontok
 Az app.js -be meghívtuk az összes routes fájlt és mint egy közlekedési csomópont igazgatja a végpontokat.
 ````javascript
-app.use('/game', express.static(path.join(__dirname, 'thegame')));
 
-app.use('/api/auth', authRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/achievements', achievementRoutes);
-app.use('/api/forum', forumRoutes);
-app.use('/api/friends', friendsRoutes);
-app.use('/api/game', gameRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/user', userRoutes);
+app.use('/admin', adminRoutes);
+app.use('/song', songRoutes);
 ````
 >app.js
 ---
-1. Auth végpontok
+1. user végpontok
 
     | Művelet        | HTTP                                               | Végpont         | Leírás                                                                 |
     |----------------|----------------------------------------------------|-----------------|------------------------------------------------------------------------|
-    | Regisztráció   | ![POST](https://img.shields.io/badge/-POST-yellow) | `/registration` | Új felhasználó regisztrálása                                          |
-    | Bejelentkezés  | ![POST](https://img.shields.io/badge/-POST-yellow) | `/login`        | Felhasználó bejelentkezése                                            |
-    | Kijelentkezés  | ![POST](https://img.shields.io/badge/-POST-yellow) | `/logout`       | Felhasználó kijelentkezése *(hitelesítés szükséges)*                  |
-    | Ellenőrzés     | ![GET](https://img.shields.io/badge/-GET-green)    | `/validate`     | Bejelentkezés ellenőrzése – igaz értéket ad vissza, ha be van jelentkezve |
+    | Regisztráció   | ![POST](https://img.shields.io/badge/-POST-yellow) | `/register` 	| Új felhasználó regisztrálása                                           |
+    | Bejelentkezés  | ![POST](https://img.shields.io/badge/-POST-yellow) | `/login`        | Felhasználó bejelentkezése                                             |
+    | Kijelentkezés  | ![POST](https://img.shields.io/badge/-POST-yellow) | `/logout`       | Felhasználó kijelentkezése *(hitelesítés szükséges)*                   |
+    | Ellenőrzés     | ![GET](https://img.shields.io/badge/-GET-green)    | `/whoAmI`     	| Bejelentkezés ellenőrzése 											 |
 
 
     ```javascript
-    router.post('/registration', registration);
-    router.post('/login', login);
-    router.post('/logout', authenticateToken, logout);
-    router.get('/validate', validate);
+		router.post('/register', register)
+		router.post('/login', login)
+		router.get('/whoami', auth, whoAmI)
+		router.post('/logout', auth, logout)
+		router.get('/musics', getmusics)
+		router.post('/like/:songID', auth, toggleLikeSong)
+		router.get('/liked-songs', auth, getLikedSongIDsHandler)
     ```
-    >auth.routes.js
-2. User végpontok
-    | Művelet                    | HTTP                                               | Végpont              | Leírás                                                                 |
-    |----------------------------|----------------------------------------------------|----------------------|------------------------------------------------------------------------|
-    | Saját profil lekérése      | ![GET](https://img.shields.io/badge/-GET-green)     | `/userprofile`       | A bejelentkezett felhasználó saját adatainak lekérése                 |
-    | Más profil lekérése        | ![GET](https://img.shields.io/badge/-GET-green)     | `/userprofile/:uid`  | Más felhasználó adatainak lekérése a(z) UID alapján                     |
-    | Profil szerkesztése        | ![PUT](https://img.shields.io/badge/-PUT-blue)   | `/editprofile`       | A felhasználó adatainak módosítása *(pl. felhasználónév, jelszó)*     |
+    >userRoutes.js
+    
 
-
-    ```javascript
-    router.get('/userprofile', authenticateToken, userprofile);
-    router.get('/userprofile/:uid', anyuserprofile);
-    router.put('/editprofile', authenticateToken, editprofile);
-    ```
-    >user.routes.js
-3. Achievements végpontok
-    | Művelet                           | HTTP                                               | Végpont                  | Leírás                                                                   |
-    |----------------------------------|----------------------------------------------------|--------------------------|--------------------------------------------------------------------------|
-    | Saját achievementek lekérése     | ![GET](https://img.shields.io/badge/-GET-green)     | `/userachievements`      | A bejelentkezett felhasználó achievementjeinek lekérése                 |
-    | Más felhasználó achievementjei   | ![GET](https://img.shields.io/badge/-GET-green)     | `/userachievements/:uid` | Más felhasználó achievementjeinek lekérése az UID alapján               |
-    | Minden achievement lekérése      | ![GET](https://img.shields.io/badge/-GET-green)     | `/all`                   | Az összes elérhető achievement listázása                                |
-    | Egy achievement lekérése         | ![GET](https://img.shields.io/badge/-GET-green)     | `/achievement/:aid`      | Egy adott achievement részleteinek lekérése az AID alapján              |
-    | Achievement megszerzése          | ![POST](https://img.shields.io/badge/-POST-yellow) | `/addachievement`        | Achievement hozzárendelése a felhasználóhoz *(megszerzés)*              |
-
-
-    ```javascript
-    router.get('/userachievements', authenticateToken, loggedinuserachievements);
-    router.get('/userachievements/:uid', authenticateToken, userachievements);
-    router.get('/all', allachievements);
-    router.get('/achievement/:aid', oneachievement);
-    router.post('/addachievement', authenticateToken, addachievement);
-    ```
-    >achievement.routes.js
-4. Forum végpontok
-    | Művelet                      | HTTP                                               | Végpont                     | Leírás                                                                 |
-    |-----------------------------|----------------------------------------------------|-----------------------------|------------------------------------------------------------------------|
-    | Új fórumposzt írása         | ![POST](https://img.shields.io/badge/-POST-yellow) | `/newpost`                  | Új fórumposzt létrehozása                                              |
-    | Minden poszt lekérése       | ![GET](https://img.shields.io/badge/-GET-green)     | `/allposts`                 | Az összes fórumposzt lekérése                                          |
-    | Egy poszt lekérése          | ![GET](https://img.shields.io/badge/-GET-green)     | `/post/:id`                 | Egy adott fórumposzt adatainak lekérése ID alapján                     |
-    | Új komment írása            | ![POST](https://img.shields.io/badge/-POST-yellow) | `/newcomment/:post_id`      | Új komment hozzáadása egy adott poszthoz                               |
-    | Fórumposzt törlése          | ![DELETE](https://img.shields.io/badge/-DELETE-red) | `/deletepost/:post_id`     | Egy adott fórumposzt törlése                                           |
-    | Komment törlése             | ![DELETE](https://img.shields.io/badge/-DELETE-red) | `/deletecomment/:comment_id`| Egy adott komment törlése                                              |
-    | Fórumposzt szerkesztése     | ![PUT](https://img.shields.io/badge/-PUT-blue)   | `/editpost/:post_id`        | Fórumposzt módosítása                                                  |
-    | Komment szerkesztése        | ![PUT](https://img.shields.io/badge/-PUT-blue)   | `/editcomment/:comment_id`  | Komment módosítása                                                     |
-    | Keresés posztok között      | ![GET](https://img.shields.io/badge/-GET-green)     | `/search/:search`           | Fórumposztok keresése a megadott kulcsszó alapján                      |
-
-
-    ```javascript
-    router.post('/newpost', authenticateToken, createPost);
-    router.get('/allposts', allPost);
-    router.get('/post/:id', singlePost);
-    router.post('/newcomment/:post_id', authenticateToken, newComment);
-    router.delete('/deletepost/:post_id', authenticateToken, deletePost);
-    router.delete('/deletecomment/:comment_id', authenticateToken, deleteComment);
-    router.put('/editpost/:post_id', authenticateToken, editPost);
-    router.put('/editcomment/:comment_id', authenticateToken, editComment);
-    router.get('/search/:search', searchPost);
-    ```
-    >forum.routes.js
-5. Friends végpontok
-    | Művelet                          | HTTP                                               | Végpont               | Leírás                                                                 |
-    |----------------------------------|----------------------------------------------------|------------------------|------------------------------------------------------------------------|
-    | Barátkérelem küldése/elfogadása | ![POST](https://img.shields.io/badge/-POST-yellow) | `/addfriend/:uid`      | Barátkérelem küldése adott UID-jelű felhasználónak, vagy elfogadása   |
-    | Beérkező kérelmek listája       | ![GET](https://img.shields.io/badge/-GET-green)     | `/pending`             | A bejelentkezett felhasználóhoz érkezett barátkérelmek listázása      |
-    | Saját barátok listája           | ![GET](https://img.shields.io/badge/-GET-green)     | `/all`                 | Saját barátok listázása                                              |
-    | Más felhasználó barátai         | ![GET](https://img.shields.io/badge/-GET-green)     | `/all/:uid`            | Egy másik felhasználó barátainak lekérése a(z) UID alapján              |
-    | Barát törlése                   | ![DELETE](https://img.shields.io/badge/-DELETE-red) | `/removefriend/:uid`   | Egy meglévő baráti kapcsolat megszüntetése                              |
-
-
-    ```javascript
-    router.post('/addfriend/:uid', authenticateToken, addFriend);
-    router.get('/pending', authenticateToken, pending);
-    router.get('/all', authenticateToken, allFriends);
-    router.get('/all/:uid', someoneFriends);
-    router.delete('/removefriend/:uid', authenticateToken, removeFriend);
-    ```
-    >friends.routes.js
-6. Game végpontok
-    | Művelet            | HTTP                                               | Végpont     | Leírás                   |
-    |--------------------|----------------------------------------------------|-------------|--------------------------|
-    | Játék feltöltése   | ![POST](https://img.shields.io/badge/-PUT-blue) | `/upload`   | Új játék verzió feltöltése      |
-
-
-    ```javascript
-    router.put('/upload', authenticateToken, verifyAdmin, upload.single('game'), uploadGame);
-    ```
-    >game.routes.js
-7. Fájl letöltéshez kapcsolódó végpont
-    | Művelet           | HTTP                                              | Végpont                | Leírás                |
-    |-------------------|---------------------------------------------------|------------------------|-----------------------|
-    | Játék letöltése   | ![GET](https://img.shields.io/badge/-GET-green)    | `/game/WrathHound.exe` | A legfrissebb játék letöltése       |
-
-
-    ```javascript
-    app.use('/game', express.static(path.join(__dirname, 'thegame')));
-    ```
-    >app.js
 ---
 ### Tesztelés
 ![postman teszt](https://i.snipboard.io/qY6Vg0.jpg)
