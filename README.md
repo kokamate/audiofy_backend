@@ -157,8 +157,8 @@ app.use('/song', songRoutes);
 | Zenék lekérése         | ![GET](https://img.shields.io/badge/-GET-green)    | `/musics`              | Összes zene lekérése                      |
 | Felhasználó törlése    | ![DELETE](https://img.shields.io/badge/-DELETE-red) | `/deleteusers/:userID` | Egy felhasználó törlése ID alapján        |
 | Zene törlése           | ![DELETE](https://img.shields.io/badge/-DELETE-red) | `/deletesongs/:songID` | Egy zene törlése ID alapján               |
-| Felhasználó frissítése | PUT    | `/updateuser/:userID`  | Felhasználó adatainak frissítése          |
-| Zene frissítése        | ![PUT](https://img.shields.io/badge/-PUT-)    | `/updatesong/:songID`  | Zene adatainak frissítése                 |
+| Felhasználó frissítése | ![PUT](https://img.shields.io/badge/-PUT-blue)     | `/updateuser/:userID`  | Felhasználó adatainak frissítése          |
+| Zene frissítése        | ![PUT](https://img.shields.io/badge/-PUT-blue)     | `/updatesong/:songID`  | Zene adatainak frissítése                 |
 | Zene feltöltése        | ![POST](https://img.shields.io/badge/-GET-green)   | `/uploadsong`          | Új zene feltöltése (fájl + kép feltöltés) |
 
 
