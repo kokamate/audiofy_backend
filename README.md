@@ -176,7 +176,7 @@ app.use('/song', songRoutes);
 		  { name: 'img', maxCount: 1 }
 		]), uploadSong);
     ```
-    >adminRoutes.js
+adminRoutes.js
     
 
 ---
