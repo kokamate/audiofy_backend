@@ -181,15 +181,19 @@ app.use('/song', songRoutes);
 
 ---
 ### Tesztelés
-![postman teszt](https://i.snipboard.io/qY6Vg0.jpg)
->[teszteredmények](https://documenter.getpostman.com/view/38557644/2sB2cVfhk5)
+
+# Bejelentkezés teszt
+![postman teszt1](https://github.com/durocsongor/ooodify_kepek/blob/main/K%C3%A9perny%C5%91felv%C3%A9tel%20(52).png?raw=true)
+
+# Ki vagyok teszt
+![postman teszt2](https://github.com/durocsongor/ooodify_kepek/blob/main/K%C3%A9perny%C5%91felv%C3%A9tel%20(53).png?raw=true)
 
 A projekt jelenleg manuálisan tesztelt és tesztelhető a **Postman** segítségével.
 ---
 
 ## Frontend
 
-- [Github repo]()
+- [Github repo](https://github.com/durocsongor/audiofy_frontend_biztonsagi.git)
 - [Frontend](https://csongi.netlify.app)
 
 ## Használt eszközök
