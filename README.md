@@ -78,26 +78,27 @@ git clone https://github.com/kokamate/audiofy_backend.git
 
 ### Használt package-ek
 - [bcryptjs](https://www.npmjs.com/package/bcryptjs)
+- [cookie-parser](https://www.npmjs.com/package/cookie-parser)
 - [cors](https://www.npmjs.com/package/cors)
 - [dotenv](https://www.npmjs.com/package/dotenv)
 - [express](https://www.npmjs.com/package/express)
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- [mongoose](https://www.npmjs.com/package/mongoose)
 - [multer](https://www.npmjs.com/package/multer)
 - [mysql2](https://www.npmjs.com/package/mysql2)
 - [nodemon](https://www.npmjs.com/package/nodemon)
 
 ````javascript
-"dependencies": {
-    "bcryptjs": "^2.4.3",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "express-session": "^1.18.1",
-    "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
-    "mysql2": "^3.11.4",
-    "validator": "^13.12.0"
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.3.1",
+    "multer": "^2.1.1",
+    "mysql2": "^3.17.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
