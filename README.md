@@ -1,9 +1,7 @@
-# OOODIFY
-## A projektről
 # 📒 OOODIFY Backend Dokumentáció
 
 ## 🏪 Bevezetés
->Az OOODIFY egy weboldal ahol zenét lehet hallgatni vagy akár feltölteni!
+>Az OOODIFY egy weboldal ahol zenét lehet hallgatni vagy akár feltölteni
 ---
 
 ## Adatbázis
