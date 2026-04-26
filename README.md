@@ -185,34 +185,20 @@ app.use('/song', songRoutes);
 >[teszteredmények](https://documenter.getpostman.com/view/38557644/2sB2cVfhk5)
 
 A projekt jelenleg manuálisan tesztelt és tesztelhető a **Postman** segítségével.
-
-
 ---
-
-### Továbbfejlesztési lehetőség
-![eredeti terv](https://i.snipboard.io/UXaO2p.jpg)
-
-Az eredeti tervben emberek közti direkt üzenetek és admin által feltöltött hírek a játék fejlesztésével kapcsolatban is be volt tervezve.
-- SQL kiegészítése plusz táblákkal
-- Plusz végpontok írása (***/news*** + ***/messages***) 
 
 ## Frontend
 
-- [Github repo](https://github.com/VNik4V/wrathhoundfrontend)
-- [Frontend](https://wrathhound.netlify.app)
+- [Github repo]()
+- [Frontend](https://csongi.netlify.app)
 
 ## Használt eszközök
 - [VS code](https://code.visualstudio.com)
-- [MDN Web Docs](https://developer.mozilla.org/en-US/)
 - [NPM](https://www.npmjs.com)
 - [Postman](https://www.postman.com)
 - [DrawSQL](https://drawsql.app)
 - [W3Schools](https://www.w3schools.com)
-- [StackOverflow](https://stackoverflow.com/questions)
 - [ChatGPT](https://chatgpt.com)
-- [Tabnine](https://www.tabnine.com)
 - [GitHub](https://github.com/)
 - [Google Drive](https://workspace.google.com/products/drive/)
-- [Pterodactyl](https://pterodactyl.io)
 - [PhpMyAdmin](https://www.phpmyadmin.net)
-- [Miro](https://miro.com)
