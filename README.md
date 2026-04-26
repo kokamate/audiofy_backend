@@ -22,9 +22,12 @@ Az OOODIFY egy olyan weboldal, ahol zenéket hallgathatsz vagy tölthetsz fel te
 - liked songs
   	- userID 
   	- songID
-    
-![kép az adatbáziskapcsolatokról]()
->[adatbázis diagram](https://drawsql.app/teams/csapat-2/diagrams/audify-database)
+
+Az adatbázis struktúrája
+
+![kép az adatbáziskapcsolatokról](https://github.com/durocsongor/ooodify_kepek/blob/main/kepek/K%C3%A9perny%C5%91felv%C3%A9tel%20(51).png?raw=true)
+
+>[Megtekintés](https://drawsql.app/teams/csapat-2/diagrams/audify-database)
 
 ---
 ## Backend
