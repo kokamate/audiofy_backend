@@ -23,8 +23,6 @@ Az OOODIFY egy olyan weboldal, ahol zenéket hallgathatsz vagy tölthetsz fel te
   	- userID 
   	- songID
 
-Az adatbázis struktúrája
-
 ![kép az adatbáziskapcsolatokról](https://github.com/durocsongor/ooodify_kepek/blob/main/kepek/K%C3%A9perny%C5%91felv%C3%A9tel%20(51).png?raw=true)
 
 >[Megtekintés](https://drawsql.app/teams/csapat-2/diagrams/audify-database)
@@ -133,8 +131,11 @@ app.use('/song', songRoutes);
     |----------------|----------------------------------------------------|-----------------|------------------------------------------------------------------------|
     | Regisztráció   | ![POST](https://img.shields.io/badge/-POST-yellow) | `/register` 	| Új felhasználó regisztrálása                                           |
     | Bejelentkezés  | ![POST](https://img.shields.io/badge/-POST-yellow) | `/login`        | Felhasználó bejelentkezése                                             |
-    | Kijelentkezés  | ![POST](https://img.shields.io/badge/-POST-yellow) | `/logout`       | Felhasználó kijelentkezése *(hitelesítés szükséges)*                   |
+    | Kijelentkezés  | ![POST](https://img.shields.io/badge/-POST-yellow) | `/logout`       | Felhasználó kijelentkezése                                             |
     | Ellenőrzés     | ![GET](https://img.shields.io/badge/-GET-green)    | `/whoAmI`     	| Bejelentkezés ellenőrzése 											 |
+    | Zenelekérés    | ![GET](https://img.shields.io/badge/-GET-green)    | `/musics`     	| Zenék betöltése 											 			 |
+    | Likeolás       | ![POST](https://img.shields.io/badge/-GET-green)   | `/like/:songID`| Tudunk egy zenét kedvelni 											     |
+    | Likeok lekérése| ![GET](https://img.shields.io/badge/-GET-green)    | `/liked-songs`  | Likeoltak zenék betöltése 											 |
 
 
     ```javascript
