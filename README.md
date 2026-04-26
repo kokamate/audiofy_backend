@@ -101,16 +101,15 @@ git clone https://github.com/kokamate/audiofy_backend.git
     "mysql2": "^3.17.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.11"
   }
 ````
->package.json
 ---  
 
 ### Biztonság
 - **JWT** token alapú hitelesítés
 - Jelszavak **bcryptjs** segítségével vannak hashelve
-- Middleware szinten történik az authentikáció (**auth.middleware.js**)
+- Middleware szinten történik az authentikáció
 - A **.env** fájl tartalmaz minden érzékeny adatot – ne oszd meg publikusan!
 ---
 
