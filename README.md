@@ -149,17 +149,17 @@ app.use('/song', songRoutes);
     ```
     >userRoutes.js
 
-2. admin végpontok
+	2. admin végpontok
 
-| Művelet                | HTTP   | Végpont                | Leírás                                    |
-| ---------------------- | ------ | ---------------------- | ----------------------------------------- |
-| Felhasználók lekérése  | ![GET](https://img.shields.io/badge/-GET-green)    | `/users`               | Összes felhasználó lekérése               |
-| Zenék lekérése         | ![GET](https://img.shields.io/badge/-GET-green)    | `/musics`              | Összes zene lekérése                      |
-| Felhasználó törlése    | ![DELETE](https://img.shields.io/badge/-DELETE-red) | `/deleteusers/:userID` | Egy felhasználó törlése ID alapján        |
-| Zene törlése           | ![DELETE](https://img.shields.io/badge/-DELETE-red) | `/deletesongs/:songID` | Egy zene törlése ID alapján               |
-| Felhasználó frissítése | ![PUT](https://img.shields.io/badge/-PUT-blue)     | `/updateuser/:userID`  | Felhasználó adatainak frissítése          |
-| Zene frissítése        | ![PUT](https://img.shields.io/badge/-PUT-blue)     | `/updatesong/:songID`  | Zene adatainak frissítése                 |
-| Zene feltöltése        | ![POST](https://img.shields.io/badge/-GET-green)   | `/uploadsong`          | Új zene feltöltése (fájl + kép feltöltés) |
+	| Művelet                | HTTP   | Végpont                | Leírás                                    |
+	| ---------------------- | ------ | ---------------------- | ----------------------------------------- |
+	| Felhasználók lekérése  | ![GET](https://img.shields.io/badge/-GET-green)    | `/users`               | Összes felhasználó lekérése               |
+	| Zenék lekérése         | ![GET](https://img.shields.io/badge/-GET-green)    | `/musics`              | Összes zene lekérése                      |
+	| Felhasználó törlése    | ![DELETE](https://img.shields.io/badge/-DELETE-red) | `/deleteusers/:userID` | Egy felhasználó törlése ID alapján        |
+	| Zene törlése           | ![DELETE](https://img.shields.io/badge/-DELETE-red) | `/deletesongs/:songID` | Egy zene törlése ID alapján               |
+	| Felhasználó frissítése | ![PUT](https://img.shields.io/badge/-PUT-blue)     | `/updateuser/:userID`  | Felhasználó adatainak frissítése          |
+	| Zene frissítése        | ![PUT](https://img.shields.io/badge/-PUT-blue)     | `/updatesong/:songID`  | Zene adatainak frissítése                 |
+	| Zene feltöltése        | ![POST](https://img.shields.io/badge/-GET-green)   | `/uploadsong`          | Új zene feltöltése (fájl + kép feltöltés) |
 
 
 
@@ -176,7 +176,7 @@ app.use('/song', songRoutes);
 		  { name: 'img', maxCount: 1 }
 		]), uploadSong);
     ```
-adminRoutes.js
+>adminRoutes.js
     
 
 ---
