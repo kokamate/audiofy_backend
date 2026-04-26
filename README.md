@@ -2,7 +2,6 @@
 
 ## 🏪 Bevezetés
 >Az OOODIFY egy weboldal ahol zenét lehet hallgatni vagy akár feltölteni
----
 
 ## Adatbázis
 
