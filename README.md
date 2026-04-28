@@ -182,6 +182,9 @@ app.use('/song', songRoutes);
 ---
 # Tesztelés
 
+Postman teszt: 
+>[Megtekintés](https://documenter.getpostman.com/view/48108104/2sBXqJJzup)
+
 ### Bejelentkezés teszt
 ![postman teszt1](https://github.com/durocsongor/ooodify_kepek/blob/main/K%C3%A9perny%C5%91felv%C3%A9tel%20(52).png?raw=true)
 
