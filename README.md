@@ -192,8 +192,8 @@ A projekt jelenleg manuálisan tesztelt és tesztelhető a **Postman** segítsé
 
 ## Frontend
 
-- [Github repo](https://github.com/durocsongor/audiofy_frontend_biztonsagi.git)
-- [Frontend](https://csongi.netlify.app)
+- [Github repo](https://github.com/durocsongor/oooodify_frontend_backup)
+- [Frontend](https://oooodify-music.netlify.app/)
 
 ## Használt eszközök
 - [VS code](https://code.visualstudio.com)
