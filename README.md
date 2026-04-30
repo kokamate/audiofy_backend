@@ -197,6 +197,10 @@ A projekt jelenleg manuálisan tesztelt és tesztelhető a **Postman** segítsé
 
 - [Github repo](https://github.com/durocsongor/oooodify_frontend_backup)
 - [Frontend](https://oooodify-music.netlify.app/)
+  
+  Frontend admin fiók belépés:
+  email: admin@email.com
+  jelszó: admin1231
 
 ## Használt eszközök
 - [VS code](https://code.visualstudio.com)
